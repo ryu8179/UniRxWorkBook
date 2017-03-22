@@ -25,8 +25,14 @@ namespace UniRxWorkBook
 
             this.UpdateAsObservable()
                 .Select(_ => controller.isGrounded)
-                ._____()
+                .DistinctUntilChanged()
                 .Subscribe(isGrounded => StatusOutput(isGrounded));
+
+            //            // 今回の場合下記の様に記述する事も出来るが、ストリームの寿命の管理に気を付ける必要が有る為、AddTo を行う
+            //            controller.ObserveEveryValueChanged(x => x.isGrounded)
+            //                .Subscribe(isGrounded => StatusOutput(isGrounded))
+            //                .AddTo(this.gameObject);
+
         }
 
         #region Output
